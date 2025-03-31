@@ -1986,7 +1986,7 @@ export const quizData: QuizTopic[] = [
 								partId: "bm_rc15.1",
 								type: "input",
 								options: [],
-								answer: "-5;0;15.5;+5",
+								answer: "-5;0;15,5;+5",
 							},
 						],
 					},

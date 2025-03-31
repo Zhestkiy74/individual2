@@ -1,6 +1,13 @@
 import { Title } from "@solidjs/meta";
 import { useNavigate, useParams } from "@solidjs/router";
-import { createSignal, createEffect, onMount, For, Show } from "solid-js";
+import {
+	createSignal,
+	createEffect,
+	onMount,
+	For,
+	Show,
+	createMemo,
+} from "solid-js";
 import { quizData } from "~/task/data";
 import { Heading } from "~/components/ui/heading";
 import { Button } from "~/components/ui/button";
@@ -11,7 +18,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Toast } from "~/components/ui/toast";
 import { IconButton } from "~/components/ui/icon-button";
 import { addSolvedTask, isTaskSolved } from "~/utils/localStorage";
-import { FiX } from "solid-icons/fi";
+import { FiX, FiArrowLeft, FiArrowRight } from "solid-icons/fi";
 
 const toaster = Toast.createToaster({
 	placement: "bottom-end",
@@ -21,43 +28,94 @@ const toaster = Toast.createToaster({
 
 export default function TaskPage() {
 	const navigate = useNavigate();
-	const { topicId, subtopics, taskId } = useParams();
+	const params = useParams();
 
 	const [isHydrated, setIsHydrated] = createSignal(false);
 	onMount(() => setIsHydrated(true));
 
-	const findCurrentTask = () => {
+	const taskContext = createMemo(() => {
+		const { topicId, subtopics, taskId } = params;
+
 		const topic = quizData.find((t) => t.topicId === topicId);
-		if (!topic) return null;
+		if (!topic)
+			return { topic: null, subtopic: null, task: null, taskIndex: -1 };
 
 		const subtopic = topic.subtopics.find(
 			(st) => st.subtopicId === subtopics,
 		);
-		if (!subtopic) return null;
+		if (!subtopic)
+			return { topic, subtopic: null, task: null, taskIndex: -1 };
 
-		const task = subtopic.tasks.find((t) => t.id === taskId);
-		if (!task) return null;
+		const taskIndex = subtopic.tasks.findIndex((t) => t.id === taskId);
+		if (taskIndex === -1)
+			return { topic, subtopic, task: null, taskIndex: -1 };
 
-		return task;
-	};
-
-	const currentTask = findCurrentTask();
-	if (!currentTask) {
-		navigate("/404", { replace: true });
-		return null;
-	}
-
-	// Проверяем, решена ли задача
-	const [solved, setSolved] = createSignal(false);
-	createEffect(() => {
-		if (isHydrated()) setSolved(isTaskSolved(taskId));
+		const task = subtopic.tasks[taskIndex];
+		return { topic, subtopic, task, taskIndex };
 	});
 
-	const { title, question, images, parts } = currentTask;
+	const [userAnswers, setUserAnswers] = createSignal<string[]>([]);
 
-	const [userAnswers, setUserAnswers] = createSignal<string[]>(
-		Array(parts.length).fill(""),
-	);
+	createEffect(() => {
+		const currentTask = taskContext().task;
+		if (currentTask) {
+			setUserAnswers(Array(currentTask.parts.length).fill(""));
+		}
+	});
+
+	createEffect(() => {
+		if (taskContext().task === null) {
+			navigate("/404", { replace: true });
+		}
+	});
+
+	const [solved, setSolved] = createSignal(false);
+
+	createEffect(() => {
+		if (isHydrated() && taskContext().task) {
+			setSolved(isTaskSolved(params.taskId));
+		}
+	});
+
+	const prevTaskId = createMemo(() => {
+		const { subtopic, taskIndex } = taskContext();
+		if (!subtopic || taskIndex <= 0) return null;
+		return subtopic.tasks[taskIndex - 1].id;
+	});
+
+	const nextTaskId = createMemo(() => {
+		const { subtopic, taskIndex } = taskContext();
+		if (
+			!subtopic ||
+			taskIndex === -1 ||
+			taskIndex >= subtopic.tasks.length - 1
+		)
+			return null;
+		return subtopic.tasks[taskIndex + 1].id;
+	});
+
+	// Обработчики навигации
+	const goToPrevTask = () => {
+		const prevId = prevTaskId();
+		if (prevId) {
+			navigate(
+				`/topics/${params.topicId}/subtopics/${params.subtopics}/tasks/${prevId}`,
+			);
+		}
+	};
+
+	const goToNextTask = () => {
+		const nextId = nextTaskId();
+		if (nextId) {
+			navigate(
+				`/topics/${params.topicId}/subtopics/${params.subtopics}/tasks/${nextId}`,
+			);
+		}
+	};
+
+	const goToSubtopic = () => {
+		navigate(`/topics/${params.topicId}/subtopics/${params.subtopics}`);
+	};
 
 	const handleAnswerChange = (index: number, value: string) => {
 		setUserAnswers((prev) => {
@@ -68,8 +126,12 @@ export default function TaskPage() {
 	};
 
 	const checkAnswers = () => {
+		const currentTask = taskContext().task;
+		if (!currentTask) return;
+
+		const { parts } = currentTask;
 		const allCorrect = parts.every((part, index) => {
-			const userAnswer = userAnswers()[index].trim().toLowerCase();
+			const userAnswer = userAnswers()[index]?.trim().toLowerCase() || "";
 			const correct = part.answer;
 
 			if (Array.isArray(correct)) {
@@ -87,7 +149,7 @@ export default function TaskPage() {
 		});
 
 		if (allCorrect) {
-			addSolvedTask(taskId);
+			addSolvedTask(params.taskId);
 			setSolved(true);
 			toaster.create({
 				title: "Правильно",
@@ -105,151 +167,221 @@ export default function TaskPage() {
 
 	return (
 		<main>
-			<Title>{title}</Title>
-			<Heading>{title}</Heading>
+			<Show when={taskContext().task} fallback={<div>Загрузка...</div>}>
+				{(task) => (
+					<>
+						<Title>{task().title}</Title>
+						<Heading>{task().title}</Heading>
 
-			<Show when={solved()}>
-				<Text style={{ color: "limegreen" }}>
-					Эта задача уже решена!
-				</Text>
-			</Show>
-
-			<Text innerHTML={question} />
-
-			<Show when={images?.length}>
-				<For each={images}>
-					{(imgSrc) => (
-						<div>
-							<img
-								src={`/tasks/${imgSrc}`}
-								alt="Task illustration"
-							/>
-						</div>
-					)}
-				</For>
-			</Show>
-
-			<Show when={isHydrated()} fallback={<div>Загрузка...</div>}>
-				<For each={parts}>
-					{(part, i) => (
-						<div
-							style={{
-								"margin-top": "1rem",
-								"padding-bottom": "1rem",
-								"border-bottom": "1px solid #ccc",
-							}}
-						>
-							<Text>
-								<b>Часть {i() + 1}:</b> {part.question || ""}
+						<Show when={solved()}>
+							<Text style={{ color: "limegreen" }}>
+								Эта задача уже решена!
 							</Text>
+						</Show>
 
-							<Show
-								when={["input", "select"].includes(part.type)}
-							>
-								<Input
-									type="text"
-									placeholder="Ваш ответ"
-									value={userAnswers()[i()]}
-									onInput={(e) =>
-										handleAnswerChange(
-											i(),
-											e.currentTarget.value,
-										)
-									}
-								/>
-							</Show>
+						<Text innerHTML={task().question} />
 
-							<Show when={part.type === "radio"}>
-								<RadioGroup.Root
-									name={`part-${i()}`}
-									value={userAnswers()[i()]}
-									onValueChange={(details) =>
-										handleAnswerChange(
-											i(),
-											details.value || "",
-										)
-									}
-								>
-									<For each={part.options}>
-										{(opt) => (
-											<RadioGroup.Item value={opt.text}>
-												<RadioGroup.ItemControl />
-												<RadioGroup.ItemText>
-													{opt.text}
-												</RadioGroup.ItemText>
-												<RadioGroup.ItemHiddenInput />
-											</RadioGroup.Item>
-										)}
-									</For>
-								</RadioGroup.Root>
-							</Show>
+						<Show when={task().images?.length}>
+							<For each={task().images}>
+								{(imgSrc) => (
+									<div>
+										<img
+											src={`/tasks/${imgSrc}`}
+											alt="Task illustration"
+										/>
+									</div>
+								)}
+							</For>
+						</Show>
 
-							<Show when={part.type === "checkbox"}>
-								<For each={part.options}>
-									{(opt) => (
-										<label style={{ display: "block" }}>
-											<Checkbox
+						<Show
+							when={isHydrated()}
+							fallback={<div>Загрузка...</div>}
+						>
+							<For each={task().parts}>
+								{(part, i) => (
+									<div
+										style={{
+											"margin-top": "1rem",
+											"padding-bottom": "1rem",
+											"border-bottom": "1px solid #ccc",
+										}}
+									>
+										<Text>
+											<b>Часть {i() + 1}:</b>{" "}
+											{part.question || ""}
+										</Text>
+
+										<Show
+											when={["input", "select"].includes(
+												part.type,
+											)}
+										>
+											<Input
+												type="text"
+												placeholder="Ваш ответ"
+												value={userAnswers()[i()] || ""}
+												onInput={(e) =>
+													handleAnswerChange(
+														i(),
+														e.currentTarget.value,
+													)
+												}
+											/>
+										</Show>
+
+										<Show when={part.type === "radio"}>
+											<RadioGroup.Root
 												name={`part-${i()}`}
-												value={opt.text}
-												checked={userAnswers()
-													[i()].split(";")
-													.includes(opt.text)}
-												onCheckedChange={(details) => {
-													const current =
-														userAnswers()
-															[i()].split(";")
-															.filter(Boolean);
-													if (details.checked) {
-														handleAnswerChange(
-															i(),
-															[
-																...current,
-																opt.text,
-															].join(";"),
-														);
-													} else {
-														handleAnswerChange(
-															i(),
-															current
-																.filter(
-																	(v) =>
-																		v !==
-																		opt.text,
-																)
-																.join(";"),
-														);
-													}
-												}}
+												value={userAnswers()[i()] || ""}
+												onValueChange={(details) =>
+													handleAnswerChange(
+														i(),
+														details.value || "",
+													)
+												}
 											>
-												{opt.text}
-											</Checkbox>
-										</label>
-									)}
-								</For>
-							</Show>
-						</div>
-					)}
-				</For>
+												<For each={part.options}>
+													{(opt) => (
+														<RadioGroup.Item
+															value={opt.text}
+														>
+															<RadioGroup.ItemControl />
+															<RadioGroup.ItemText>
+																{opt.text}
+															</RadioGroup.ItemText>
+															<RadioGroup.ItemHiddenInput />
+														</RadioGroup.Item>
+													)}
+												</For>
+											</RadioGroup.Root>
+										</Show>
 
-				<Button
-					style={{
-						"margin-top": "1rem",
-					}}
-					onClick={checkAnswers}
-					disabled={solved()}
-				>
-					Проверить ответы
-				</Button>
-				<Button
-					style={{
-						"margin-top": "1rem",
-						"margin-left": "1rem",
-					}}
-					onClick={() => navigate(-1)}
-					variant="subtle"
-				>
-					Назад
-				</Button>
+										<Show when={part.type === "checkbox"}>
+											<For each={part.options}>
+												{(opt) => (
+													<label
+														style={{
+															display: "block",
+														}}
+													>
+														<Checkbox
+															name={`part-${i()}`}
+															value={opt.text}
+															checked={(
+																userAnswers()[
+																	i()
+																] || ""
+															)
+																.split(";")
+																.includes(
+																	opt.text,
+																)}
+															onCheckedChange={(
+																details,
+															) => {
+																const current =
+																	(
+																		userAnswers()[
+																			i()
+																		] || ""
+																	)
+																		.split(
+																			";",
+																		)
+																		.filter(
+																			Boolean,
+																		);
+																if (
+																	details.checked
+																) {
+																	handleAnswerChange(
+																		i(),
+																		[
+																			...current,
+																			opt.text,
+																		].join(
+																			";",
+																		),
+																	);
+																} else {
+																	handleAnswerChange(
+																		i(),
+																		current
+																			.filter(
+																				(
+																					v,
+																				) =>
+																					v !==
+																					opt.text,
+																			)
+																			.join(
+																				";",
+																			),
+																	);
+																}
+															}}
+														>
+															{opt.text}
+														</Checkbox>
+													</label>
+												)}
+											</For>
+										</Show>
+									</div>
+								)}
+							</For>
+
+							<div
+								style={{
+									"margin-top": "1.5rem",
+									display: "flex",
+									gap: "1rem",
+								}}
+							>
+								{/* Кнопки навигации между задачами */}
+								<Button
+									onClick={goToPrevTask}
+									disabled={!prevTaskId()}
+									variant="outline"
+								>
+									<FiArrowLeft
+										style={{ "margin-right": "0.5rem" }}
+									/>
+									Предыдущая задача
+								</Button>
+
+								<Button
+									onClick={checkAnswers}
+									disabled={solved()}
+								>
+									Проверить ответы
+								</Button>
+
+								<Button
+									onClick={goToNextTask}
+									disabled={!nextTaskId()}
+									variant="outline"
+								>
+									Следующая задача
+									<FiArrowRight
+										style={{ "margin-left": "0.5rem" }}
+									/>
+								</Button>
+							</div>
+
+							<Button
+								style={{
+									"margin-top": "1rem",
+								}}
+								onClick={goToSubtopic}
+								variant="subtle"
+							>
+								Назад к списку
+							</Button>
+						</Show>
+					</>
+				)}
 			</Show>
 			<Toast.Toaster toaster={toaster}>
 				{(toast) => (
