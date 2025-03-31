@@ -1884,7 +1884,7 @@ export const quizData: QuizTopic[] = [
 						id: "bm_rc9",
 						title: "Числовое выражение",
 						question:
-							"Найди значение выражения: (sqrt(sqrt(12) - 2) * sqrt(sqrt(12) + 2)) / sqrt(128)",
+							"Найди значение выражения: (sqrt(sqrt(12) - 2) * sqrt(sqrt(12) + 2)) / sqrt(128). (Пример ответа 6/5)",
 						parts: [
 							{
 								partId: "bm_rc9.1",
@@ -1965,8 +1965,13 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "bm_rc14.1",
-								type: "input",
-								options: [],
+								type: "radio",
+								options: [
+									{ id: "1", text: "b ∈ (-1; 11)" },
+									{ id: "2", text: "b ∈ (-∞; -1] ∪ [11; ∞)" },
+									{ id: "3", text: "b ∈ (-1; 10)" },
+									{ id: "4", text: "b ∈ (-1; 12)" },
+								],
 								answer: "b ∈ (-1; 11)",
 							},
 						],
@@ -1993,14 +1998,16 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "bm_rc16.1",
-								question: "Пара (x; y) 1:",
+								question:
+									"Пара (x; y) 1: (Пример ответа (2;33))",
 								type: "input",
 								options: [],
 								answer: "(-1;13)",
 							},
 							{
 								partId: "bm_rc16.2",
-								question: "Пара (x; y) 2:",
+								question:
+									"Пара (x; y) 2: (Пример ответа (2;33))",
 								type: "input",
 								options: [],
 								answer: "(1;13)",
