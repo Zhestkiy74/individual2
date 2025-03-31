@@ -70,9 +70,7 @@ export default function TaskPage() {
 	const checkAnswers = () => {
 		const allCorrect = parts.every((part, index) => {
 			const userAnswer = userAnswers()[index].trim().toLowerCase();
-			console.log("userAnswer:", userAnswer);
 			const correct = part.answer;
-			console.log("correct:", correct);
 
 			if (Array.isArray(correct)) {
 				const userArray = userAnswer.split(",").map((s) => s.trim());
