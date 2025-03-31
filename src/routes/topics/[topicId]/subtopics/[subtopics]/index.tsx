@@ -42,7 +42,7 @@ export default function SubtopicPage() {
 			{tasks.length > 0 ? (
 				<ul>
 					<For each={tasks}>
-						{(task) => (
+						{(task, i) => (
 							<li>
 								<Show
 									when={
@@ -64,6 +64,7 @@ export default function SubtopicPage() {
 								<Link
 									href={`/topics/${topicId}/subtopics/${subtopics}/tasks/${task.id}`}
 								>
+									{`${i() + 1} - `}
 									{task.title}
 								</Link>
 							</li>

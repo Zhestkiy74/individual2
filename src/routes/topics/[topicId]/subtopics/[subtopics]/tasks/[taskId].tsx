@@ -56,6 +56,12 @@ export default function TaskPage() {
 
 	const [userAnswers, setUserAnswers] = createSignal<string[]>([]);
 
+	const getTaskNumber = createMemo(() => {
+		const { task, taskIndex } = taskContext();
+		if (task) return taskIndex + 1;
+		return 0;
+	});
+
 	createEffect(() => {
 		const currentTask = taskContext().task;
 		if (currentTask) {
@@ -94,7 +100,6 @@ export default function TaskPage() {
 		return subtopic.tasks[taskIndex + 1].id;
 	});
 
-	// Обработчики навигации
 	const goToPrevTask = () => {
 		const prevId = prevTaskId();
 		if (prevId) {
@@ -135,7 +140,6 @@ export default function TaskPage() {
 			const correct = part.answer;
 
 			if (Array.isArray(correct)) {
-				// Используем разделитель ";"
 				const userArray = userAnswer.split(";").map((s) => s.trim());
 				return (
 					userArray.length === correct.length &&
@@ -171,16 +175,21 @@ export default function TaskPage() {
 				{(task) => (
 					<>
 						<Title>{task().title}</Title>
-						<Heading>{task().title}</Heading>
-
+						<Heading as="h2" size="4xl">
+							{task().title}{" "}
+							<span
+								style={{ "font-size": "0.8em", color: "#666" }}
+							>
+								(Задача {getTaskNumber()} из{" "}
+								{taskContext().subtopic?.tasks?.length || 0})
+							</span>
+						</Heading>
 						<Show when={solved()}>
 							<Text style={{ color: "limegreen" }}>
 								Эта задача уже решена!
 							</Text>
 						</Show>
-
 						<Text innerHTML={task().question} />
-
 						<Show when={task().images?.length}>
 							<For each={task().images}>
 								{(imgSrc) => (
@@ -193,7 +202,6 @@ export default function TaskPage() {
 								)}
 							</For>
 						</Show>
-
 						<Show
 							when={isHydrated()}
 							fallback={<div>Загрузка...</div>}
@@ -339,7 +347,6 @@ export default function TaskPage() {
 									gap: "1rem",
 								}}
 							>
-								{/* Кнопки навигации между задачами */}
 								<Button
 									onClick={goToPrevTask}
 									disabled={!prevTaskId()}

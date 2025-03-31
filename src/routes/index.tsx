@@ -1,7 +1,6 @@
 import { Title } from "@solidjs/meta";
 import { FiChevronUp } from "solid-icons/fi";
 import { Accordion } from "~/components/ui/accordion";
-import { Text } from "~/components/ui/text";
 import { Link } from "~/components/ui/link";
 import { Heading } from "~/components/ui/heading";
 import { quizData } from "~/task/data";
