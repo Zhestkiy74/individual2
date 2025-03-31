@@ -70,7 +70,9 @@ export default function TaskPage() {
 	const checkAnswers = () => {
 		const allCorrect = parts.every((part, index) => {
 			const userAnswer = userAnswers()[index].trim().toLowerCase();
+			console.log("userAnswer:", userAnswer);
 			const correct = part.answer;
+			console.log("correct:", correct);
 
 			if (Array.isArray(correct)) {
 				const userArray = userAnswer.split(",").map((s) => s.trim());
@@ -119,7 +121,10 @@ export default function TaskPage() {
 				<For each={images}>
 					{(imgSrc) => (
 						<div>
-							<img src={imgSrc} alt="Task illustration" />
+							<img
+								src={`/tasks/${imgSrc}`}
+								alt="Task illustration"
+							/>
 						</div>
 					)}
 				</For>
@@ -136,8 +141,7 @@ export default function TaskPage() {
 							}}
 						>
 							<Text>
-								<b>Часть {i() + 1}:</b>{" "}
-								{part.question || "(Нет формулировки)"}
+								<b>Часть {i() + 1}:</b> {part.question || ""}
 							</Text>
 
 							<Show
@@ -181,7 +185,12 @@ export default function TaskPage() {
 								</RadioGroup.Root>
 							</Show>
 
-							<Show when={part.type === "checkbox"}>
+							<Show
+								when={
+									part.type === "checkbox" ||
+									part.type === "select"
+								}
+							>
 								<For each={part.options}>
 									{(opt) => (
 										<label style={{ display: "block" }}>
@@ -236,6 +245,16 @@ export default function TaskPage() {
 					disabled={solved()}
 				>
 					Проверить ответы
+				</Button>
+				<Button
+					style={{
+						"margin-top": "1rem",
+						"margin-left": "1rem",
+					}}
+					onClick={() => navigate(-1)}
+					variant="subtle"
+				>
+					Назад
 				</Button>
 			</Show>
 			<Toast.Toaster toaster={toaster}>
