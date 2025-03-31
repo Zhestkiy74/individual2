@@ -73,7 +73,8 @@ export default function TaskPage() {
 			const correct = part.answer;
 
 			if (Array.isArray(correct)) {
-				const userArray = userAnswer.split(",").map((s) => s.trim());
+				// Используем разделитель ";"
+				const userArray = userAnswer.split(";").map((s) => s.trim());
 				return (
 					userArray.length === correct.length &&
 					correct.every((ans) =>
@@ -183,12 +184,7 @@ export default function TaskPage() {
 								</RadioGroup.Root>
 							</Show>
 
-							<Show
-								when={
-									part.type === "checkbox" ||
-									part.type === "select"
-								}
-							>
+							<Show when={part.type === "checkbox"}>
 								<For each={part.options}>
 									{(opt) => (
 										<label style={{ display: "block" }}>
@@ -196,12 +192,12 @@ export default function TaskPage() {
 												name={`part-${i()}`}
 												value={opt.text}
 												checked={userAnswers()
-													[i()].split(",")
+													[i()].split(";")
 													.includes(opt.text)}
 												onCheckedChange={(details) => {
 													const current =
 														userAnswers()
-															[i()].split(",")
+															[i()].split(";")
 															.filter(Boolean);
 													if (details.checked) {
 														handleAnswerChange(
@@ -209,7 +205,7 @@ export default function TaskPage() {
 															[
 																...current,
 																opt.text,
-															].join(","),
+															].join(";"),
 														);
 													} else {
 														handleAnswerChange(
@@ -220,7 +216,7 @@ export default function TaskPage() {
 																		v !==
 																		opt.text,
 																)
-																.join(","),
+																.join(";"),
 														);
 													}
 												}}
