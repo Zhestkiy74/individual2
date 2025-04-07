@@ -35,7 +35,7 @@ importers:
         version: 0.53.3(typescript@5.6.2)
       '@park-ui/panda-preset':
         specifier: ^0.43.1
-        version: 0.43.1(@internationalized/date@3.7.0)(@pandacss/dev@0.53.3(typescript@5.6.2))
+        version: 0.43.1(@internationalized/date@3.5.5)(@pandacss/dev@0.53.3(typescript@5.6.2))
       vite-tsconfig-paths:
         specifier: ^5.1.4
         version: 5.1.4(typescript@5.6.2)(vite@6.2.3(jiti@2.4.2)(lightningcss@1.25.1)(terser@5.39.0))
@@ -3567,7 +3567,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@ark-ui/anatomy@3.5.0(@internationalized/date@3.7.0)':
+  '@ark-ui/anatomy@3.5.0(@internationalized/date@3.5.5)':
     dependencies:
       '@zag-js/accordion': 0.62.1
       '@zag-js/anatomy': 0.62.1
@@ -3580,7 +3580,7 @@ snapshots:
       '@zag-js/color-utils': 0.62.1
       '@zag-js/combobox': 0.62.1
       '@zag-js/date-picker': 0.62.1
-      '@zag-js/date-utils': 0.62.1(@internationalized/date@3.7.0)
+      '@zag-js/date-utils': 0.62.1(@internationalized/date@3.5.5)
       '@zag-js/dialog': 0.62.1
       '@zag-js/editable': 0.62.1
       '@zag-js/file-upload': 0.62.1
@@ -4369,9 +4369,9 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
 
-  '@park-ui/panda-preset@0.43.1(@internationalized/date@3.7.0)(@pandacss/dev@0.53.3(typescript@5.6.2))':
+  '@park-ui/panda-preset@0.43.1(@internationalized/date@3.5.5)(@pandacss/dev@0.53.3(typescript@5.6.2))':
     dependencies:
-      '@ark-ui/anatomy': 3.5.0(@internationalized/date@3.7.0)
+      '@ark-ui/anatomy': 3.5.0(@internationalized/date@3.5.5)
       '@pandacss/dev': 0.53.3(typescript@5.6.2)
       effect: 3.10.15
     transitivePeerDependencies:
@@ -5044,10 +5044,6 @@ snapshots:
   '@zag-js/date-utils@0.62.1(@internationalized/date@3.5.5)':
     dependencies:
       '@internationalized/date': 3.5.5
-
-  '@zag-js/date-utils@0.62.1(@internationalized/date@3.7.0)':
-    dependencies:
-      '@internationalized/date': 3.7.0
 
   '@zag-js/date-utils@1.7.0(@internationalized/date@3.7.0)':
     dependencies:

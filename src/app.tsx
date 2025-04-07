@@ -4,6 +4,7 @@ import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
 import "./index.css";
 import { Container } from "styled-system/jsx";
+import { onMount } from "solid-js";
 import Header from "~/components/header";
 
 export default function App() {
