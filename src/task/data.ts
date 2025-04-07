@@ -82,14 +82,14 @@ export const quizData: QuizTopic[] = [
 								question: "x",
 								type: "input",
 								options: [],
-								answer: "\\(25\\)",
+								answer: "25",
 							},
 							{
 								partId: "2",
 								question: "y",
 								type: "input",
 								options: [],
-								answer: "\\(20\\)",
+								answer: "20",
 							},
 						],
 					},
@@ -130,21 +130,21 @@ export const quizData: QuizTopic[] = [
 								question: "a) 74=?",
 								type: "input",
 								options: [],
-								answer: "\\(74/1\\)",
+								answer: "74/1",
 							},
 							{
 								partId: "2",
 								question: "б) -0,3=?",
 								type: "input",
 								options: [],
-								answer: "\\(-3/10\\)",
+								answer: "-3/10",
 							},
 							{
 								partId: "3",
 								question: "в) -0,3003=?",
 								type: "input",
 								options: [],
-								answer: "\\(-3003/10000\\)",
+								answer: "-3003/10000",
 							},
 						],
 					},
@@ -160,14 +160,14 @@ export const quizData: QuizTopic[] = [
 								question: "Количество дробей?",
 								type: "input",
 								options: [],
-								answer: "\\(58\\)",
+								answer: "58",
 							},
 							{
 								partId: "2",
 								question: "Наибольшая дробь?",
 								type: "input",
 								options: [],
-								answer: "\\(58/59\\)",
+								answer: "58/59",
 							},
 						],
 					},
@@ -282,7 +282,7 @@ export const quizData: QuizTopic[] = [
 							{
 								type: "input",
 								options: [],
-								answer: "\\(6,4(43)\\)",
+								answer: "6,4(43)",
 							},
 						],
 					},
@@ -296,7 +296,7 @@ export const quizData: QuizTopic[] = [
 							{
 								type: "input",
 								options: [],
-								answer: "\\(145/144\\)",
+								answer: "145/144",
 							},
 						],
 					},
@@ -310,7 +310,7 @@ export const quizData: QuizTopic[] = [
 							{
 								type: "input",
 								options: [],
-								answer: "\\(207\\)",
+								answer: "207",
 							},
 							{
 								type: "radio",
@@ -1638,7 +1638,7 @@ export const quizData: QuizTopic[] = [
 								partId: "1",
 								type: "input",
 								options: [],
-								answer: "\\(\\frac{3}{4}\\)",
+								answer: "3/4",
 							},
 						],
 					},
@@ -2217,7 +2217,7 @@ export const quizData: QuizTopic[] = [
 						id: "bm_rc15",
 						title: "Метод интервалов",
 						question:
-							"Реши неравенство: \\(x^2 - 15,5x > 0\\). (Перечисли промежутки через точку с запятой.)",
+							"Реши неравенство: \\(x^2 - 15,5x > 0\\). (Перечисли промежутки через точку с запятой. (-2;1;15,5))",
 						parts: [
 							{
 								partId: "bm_rc15.1",
@@ -3797,8 +3797,15 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "stp7.1",
-								type: "input",
-								options: [],
+								question:
+									"Расстояние от точки B до плоскости (см):",
+								type: "radio",
+								options: [
+									{ id: "1", text: "10√2" },
+									{ id: "2", text: "10" },
+									{ id: "3", text: "20" },
+									{ id: "4", text: "5√2" },
+								],
 								answer: "10√2",
 							},
 						],

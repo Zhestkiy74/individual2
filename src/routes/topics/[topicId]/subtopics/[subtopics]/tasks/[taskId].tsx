@@ -122,7 +122,6 @@ function TaskPageContent() {
 								formula={currentTask().question}
 								display={true}
 							/>
-							{/* {currentTask().question} */}
 						</Text>
 
 						<TaskImages images={currentTask().images} />
