@@ -7,9 +7,12 @@ export interface TaskPart {
 	partId?: string;
 	question?: string;
 	type: "radio" | "checkbox" | "input";
-	placeholder?: string;
-	options?: Option[];
 	answer: string | string[];
+	is_horizontal?: boolean;
+	placeholder?: string;
+	prefix?: string;
+	postfix?: string;
+	options?: Option[];
 }
 
 export interface QuizTask {

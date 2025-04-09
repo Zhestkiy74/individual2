@@ -74,20 +74,20 @@ export function FractionInput(props: FractionInputProps) {
 				style={{ width: "3rem" }}
 				placeholder="+/-"
 				value={fractionSign()}
-				onInput={(e) => {
+				onBlur={(e) => {
 					const newSign = e.currentTarget.value;
 					setFractionSign(newSign);
 					handleChange(newSign, fractionNumerator(), fractionDenom());
 				}}
 			/>
-			<div style={{ fontWeight: "bold" }}>
+			<div style={{ "font-weight": "bold" }}>
 				{/* Поле ввода числителя */}
 				<Input
 					type="text"
-					style={{ width: "5rem" }}
+					// style={{ width: "8rem" }}
 					placeholder="числитель"
 					value={fractionNumerator()}
-					onInput={(e) => {
+					onBlur={(e) => {
 						const newNumerator = e.currentTarget.value;
 						setFractionNumerator(newNumerator);
 						handleChange(
@@ -97,14 +97,20 @@ export function FractionInput(props: FractionInputProps) {
 						);
 					}}
 				/>
-				<span style={{ margin: "0 0.2rem" }}>/</span>
-				{/* Поле ввода знаменателя */}
+				<span
+					style={{
+						margin: "0.2rem",
+						border: "1px solid black",
+						width: "100%",
+						display: "flex",
+					}}
+				></span>
 				<Input
 					type="text"
-					style={{ width: "5rem" }}
+					// style={{ width: "5rem" }}
 					placeholder="знаменатель"
 					value={fractionDenom()}
-					onInput={(e) => {
+					onBlur={(e) => {
 						const newDenom = e.currentTarget.value;
 						setFractionDenom(newDenom);
 						handleChange(

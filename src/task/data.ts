@@ -40,6 +40,7 @@ export const quizData: QuizTopic[] = [
 						images: [],
 						parts: [
 							{
+								prefix: "Ответ:",
 								type: "input",
 								options: [],
 								answer: "26",
@@ -70,19 +71,22 @@ export const quizData: QuizTopic[] = [
 						id: "nc4",
 						title: "Деление с остатком",
 						question:
-							"Составьте формулу натурального числа \\(a\\), которое при делении на \\(25\\) даёт остаток \\(20\\). Ответ: \\(a = (x) \\cdot q + (y)\\)",
+							"Составьте формулу натурального числа \\(a\\), которое при делении на \\(25\\) даёт остаток \\(20\\). Ответ:",
 						images: [],
 						parts: [
 							{
+								is_horizontal: true,
 								partId: "1",
-								question: "\\(x = \\)",
+								prefix: "\\(a =\\)",
 								type: "input",
 								options: [],
+								postfix: "\\(\\cdot \\)",
 								answer: "25",
 							},
 							{
+								is_horizontal: true,
 								partId: "2",
-								question: "\\(y = \\)",
+								prefix: "\\(q +  \\)",
 								type: "input",
 								options: [],
 								answer: "20",
@@ -122,21 +126,21 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "a) 74=?",
+								prefix: "74=",
 								type: "input",
 								options: [],
 								answer: "74/1",
 							},
 							{
 								partId: "2",
-								question: "б) -0,3=?",
+								prefix: "-0,3=",
 								type: "input",
 								options: [],
 								answer: "-3/10",
 							},
 							{
 								partId: "3",
-								question: "в) -0,3003=?",
+								prefix: "-0,3003=",
 								type: "input",
 								options: [],
 								answer: "-3003/10000",
@@ -305,10 +309,22 @@ export const quizData: QuizTopic[] = [
 						images: [],
 						parts: [
 							{
+								partId: "part1",
+								is_horizontal: true,
 								type: "input",
 								options: [],
-								placeholder: "2,4(324)",
-								answer: "6,4(43)",
+								placeholder: "12,3",
+								answer: "6,4)",
+							},
+							{
+								partId: "part2",
+								is_horizontal: true,
+								prefix: "(",
+								postfix: ")",
+								type: "input",
+								options: [],
+								placeholder: "12",
+								answer: "43",
 							},
 						],
 					},
@@ -463,16 +479,17 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question:
-									"Из \\(( )\\) т свежей травы выйдет \\(6,16\\) т корма.",
+								prefix: "Из ",
+								postfix:
+									"т свежей травы выйдет \\(6,16\\) т корма.",
 								type: "input",
 								options: [],
 								answer: "8",
 							},
 							{
 								partId: "2",
-								question:
-									"Из \\(2,2\\) т свежей травы выйдет \\(( )\\) т корма.",
+								prefix: "Из \\(2,2\\) т свежей травы выйдет",
+								postfix: "т корма.",
 								type: "input",
 								options: [],
 								answer: "1,694",
@@ -486,7 +503,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								question:
-									"Представь проценты в виде десятичной дроби: \\(64\\% =\\)",
+									"Представь проценты в виде десятичной дроби:",
+								prefix: "\\(64\\% =\\)",
 								placeholder: "0,32",
 								partId: "1",
 								type: "input",
@@ -501,8 +519,8 @@ export const quizData: QuizTopic[] = [
 						question: "",
 						parts: [
 							{
-								question:
-									"Запиши в виде десятичной дроби: \\(135\\% =\\)",
+								question: "Запиши в виде десятичной дроби:",
+								prefix: "\\(135\\% =\\)",
 								placeholder: "0,32",
 								partId: "1",
 								type: "input",
@@ -518,7 +536,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								question:
-									"Переведи проценты в десятичную дробь: \\(1,4\\% =\\)",
+									"Переведи проценты в десятичную дробь:",
+								prefix: "\\(1,4\\% =\\)",
 								placeholder: "0,32",
 								partId: "1",
 								type: "input",
@@ -533,8 +552,9 @@ export const quizData: QuizTopic[] = [
 						question: "",
 						parts: [
 							{
-								question:
-									"Запиши в процентах: \\(0,208 = ( )\\%\\)",
+								question: "Запиши в процентах: ",
+								prefix: "\\(0,208 = \\)",
+								postfix: "\\( \\%\\)",
 								partId: "1",
 								placeholder: "0,32",
 								type: "input",
@@ -550,7 +570,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(0,73 = ( )\\%\\)",
+								prefix: "\\(0,73 = \\)",
+								postfix: "\\( \\%\\)",
 								placeholder: "32",
 								type: "input",
 								options: [],
@@ -558,7 +579,8 @@ export const quizData: QuizTopic[] = [
 							},
 							{
 								partId: "2",
-								question: "\\(0,09 = ( )\\%\\)",
+								prefix: "\\(0,09 = \\)",
+								postfix: "\\( \\%\\)",
 								type: "input",
 								placeholder: "32",
 								options: [],
@@ -588,11 +610,13 @@ export const quizData: QuizTopic[] = [
 					{
 						id: "ap9",
 						title: "Число, которое является или не является решением неравенства с модулем",
-						question:
-							"Число \\(-0,85\\) ( ) решением неравенства \\(|x| < -0,85\\).",
+						question: "",
 						parts: [
 							{
 								partId: "1",
+								prefix: "Число \\(-0,85\\)",
+								postfix:
+									"решением неравенства \\(|x| < -0,85\\).",
 								type: "radio",
 								options: [
 									{ id: "1", text: "является" },
@@ -606,10 +630,11 @@ export const quizData: QuizTopic[] = [
 						id: "ap10",
 						title: "Линейное неравенство",
 						question:
-							"Реши неравенство \\(8 - 4x < 6 - 6x\\). В одно окошко введи знак неравенства, в другое — число.",
+							"Реши неравенство \\(8 - 4x < 6 - 6x\\). <br/>(В одно окошко введи знак неравенства, в другое — число.)",
 						parts: [
 							{
-								question: "Знак неравенства",
+								is_horizontal: true,
+								prefix: "Ответ: \\(t\\)",
 								partId: "1",
 								placeholder: "> < =",
 								type: "input",
@@ -617,7 +642,8 @@ export const quizData: QuizTopic[] = [
 								answer: "<",
 							},
 							{
-								question: "Число",
+								is_horizontal: true,
+								placeholder: "123",
 								partId: "2",
 								type: "input",
 								options: [],
@@ -632,7 +658,7 @@ export const quizData: QuizTopic[] = [
 							"Найди дискриминант квадратного уравнения \\(10x^2 + 15x + 20 = 0\\).",
 						parts: [
 							{
-								question: "Ответ: \\(D =\\)",
+								prefix: "Ответ: \\(D =\\)",
 								partId: "1",
 								type: "input",
 								options: [],
@@ -676,14 +702,14 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(x_1 = ( )\\)",
+								prefix: "\\(x_1 = \\)",
 								type: "input",
 								options: [],
 								answer: "-1",
 							},
 							{
 								partId: "2",
-								question: "\\(x_2 = ( )\\)",
+								prefix: "\\(x_2 = \\)",
 								type: "input",
 								options: [],
 								answer: "-2",
@@ -770,7 +796,7 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(95\\% = \\frac{( x )}{( y )}\\).",
+								prefix: "\\(95\\% = \\)",
 								type: "input",
 								options: [],
 								answer: "19/20",
@@ -783,15 +809,17 @@ export const quizData: QuizTopic[] = [
 						question: "Запиши в виде процентов:;<br/>",
 						parts: [
 							{
-								question: "\\(0,62 = ( )\\%\\)",
 								partId: "1",
+								prefix: "\\(0,62 = \\)",
+								postfix: "\\(\\%\\)",
 								type: "input",
 								options: [],
 								answer: "62",
 							},
 							{
-								question: "\\(0,9 = ( )\\%\\)",
 								partId: "2",
+								prefix: "\\(0,9 = \\)",
+								postfix: "\\(\\%\\)",
 								type: "input",
 								options: [],
 								answer: "90",
@@ -806,7 +834,9 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
+								prefix: "Ответ: ",
 								type: "input",
+								postfix: "\\(\\%\\)",
 								options: [],
 								answer: "40",
 							},
@@ -815,9 +845,11 @@ export const quizData: QuizTopic[] = [
 					{
 						id: "ap20",
 						title: "Нахождение процентов от данного числа",
-						question: "Вычисли: \\(2\\%\\) от \\(337\\) равно ( ).",
+						question: "Вычисли:",
 						parts: [
 							{
+								prefix: " \\(2\\%\\) от \\(337\\) равно",
+								postfix: "\\(\\%\\)",
 								partId: "1",
 								type: "input",
 								options: [],
@@ -829,9 +861,10 @@ export const quizData: QuizTopic[] = [
 						id: "ap21",
 						title: "Нахождение числа по его процентам (десятичная дробь)",
 						question:
-							"Найди число, если \\(3\\%\\) его равны \\(1,2\\). Число равно ( ).",
+							"Найди число, если \\(3\\%\\) его равны \\(1,2\\).",
 						parts: [
 							{
+								prefix: "Число равно",
 								partId: "1",
 								type: "input",
 								options: [],
@@ -849,6 +882,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "1",
 								placeholder: "21",
+								postfix: "\\(\\%\\)",
 								type: "input",
 								options: [],
 								answer: "75",
@@ -862,7 +896,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(1\\ кг — это ( )\\ г\\)",
+								prefix: "\\(1\\ кг — это\\)",
+								postfix: "\\(г\\)",
 								type: "radio",
 								options: [
 									{ id: "1", text: "\\(100\\)" },
@@ -873,9 +908,9 @@ export const quizData: QuizTopic[] = [
 								answer: "\\(1000\\)",
 							},
 							{
-								question:
-									"\\(35\\%\\) от \\(5\\ кг = ( )\\ г\\).",
+								prefix: "\\(35\\%\\) от \\(5\\ кг =\\)",
 								partId: "2",
+								postfix: "\\(г\\)",
 								type: "input",
 								options: [],
 								answer: "1750",
@@ -886,19 +921,24 @@ export const quizData: QuizTopic[] = [
 						id: "ap24",
 						title: "Сравнение процентов и дроби (переход к процентам)",
 						question:
-							"Сравни \\(\\frac{4}{5}\\) и \\(82\\%\\), приведя оба числа к процентам. Заполни: ( )% \\((\> \< \=)\\) \\(82\\%\\)",
+							"Сравни \\(\\frac{4}{5}\\) и \\(82\\%\\), приведя оба числа к процентам.",
 						parts: [
 							{
+								is_horizontal: true,
 								question: "Число",
 								partId: "2",
+								postfix: "\\(\\%\\)",
+								placeholder: "12",
 								type: "input",
 								options: [],
 								answer: "80",
 							},
 							{
-								question: "Знак неравенства",
+								is_horizontal: true,
+								question: "Знак",
 								partId: "1",
 								placeholder: "> < =",
+								postfix: "\\(87 \\%\\) ",
 								type: "input",
 								options: [],
 								answer: "<",
@@ -914,7 +954,8 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "1",
 								placeholder: "20,30",
-								question: "В Брянск отправили ( ) т дынь",
+								prefix: "В Брянск отправили",
+								postfix: " т дынь",
 								type: "input",
 								options: [],
 								answer: "26,91",
@@ -922,7 +963,8 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "2",
 								placeholder: "20,30",
-								question: "В Саратов отправили ( ) т дынь",
+								prefix: "В Саратов отправили",
+								postfix: " т дынь",
 								type: "input",
 								options: [],
 								answer: "8,97",
@@ -933,10 +975,12 @@ export const quizData: QuizTopic[] = [
 						id: "ap26",
 						title: "Себестоимость детали",
 						question:
-							"Себестоимость изделия была равна \\(739\\) р. После снижения на \\(3\\%\\) какова новая себестоимость? Ответ: ( ) р.",
+							"Себестоимость изделия была равна \\(739\\) р. После снижения на \\(3\\%\\) какова новая себестоимость?",
 						parts: [
 							{
 								placeholder: "123,45",
+								prefix: "Ответ:",
+								postfix: " р.",
 								partId: "1",
 								type: "input",
 								options: [],
@@ -951,7 +995,8 @@ export const quizData: QuizTopic[] = [
 							"Мальчик прочитал \\(120\\) страниц, что составляет \\(15\\%\\) от общего числа страниц в книге. Сколько страниц в книге?",
 						parts: [
 							{
-								question: "Ответ: ( ) страниц.",
+								prefix: "Ответ:",
+								postfix: " страниц.",
 								placeholder: "123",
 								partId: "1",
 								type: "input",
@@ -967,7 +1012,8 @@ export const quizData: QuizTopic[] = [
 							"В школе \\(900\\) учеников, из них \\(504\\) девочки. Сколько процентов учеников составляют девочки?",
 						parts: [
 							{
-								question: "Ответ: ( )\\(\\%\\).",
+								prefix: "Ответ:",
+								postfix: "\\(\\%\\).",
 								placeholder: "12",
 								partId: "1",
 								type: "input",
@@ -1151,14 +1197,16 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(x_1 = ( )\\) - больший корень",
+								prefix: "\\(x_1 = \\) ",
+								postfix: "- больший корень",
 								type: "input",
 								options: [],
 								answer: "1,5",
 							},
 							{
 								partId: "2",
-								question: "\\(x_2 = ( )\\) - меньший корень",
+								prefix: "\\(x_2 = \\) ",
+								postfix: "- меньший корень",
 								type: "input",
 								options: [],
 								answer: "1",
@@ -1173,14 +1221,16 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(x_1 = ( )\\) - больший корень",
+								prefix: "\\(x_1 = \\) ",
+								postfix: "- больший корень",
 								type: "input",
 								options: [],
 								answer: "4,75",
 							},
 							{
 								partId: "2",
-								question: "\\(x_2 = ( )\\) - меньший корень",
+								prefix: "\\(x_2 = \\) ",
+								postfix: "- меньший корень",
 								type: "input",
 								options: [],
 								answer: "4,75",
@@ -1220,14 +1270,16 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question: "\\(x_1 = ( )\\) - больший корень",
+								prefix: "\\(x_1 = \\) ",
+								postfix: "- больший корень",
 								type: "input",
 								options: [],
 								answer: "-28",
 							},
 							{
 								partId: "2",
-								question: "\\(x_2 = ( )\\) - меньший корень",
+								prefix: "\\(x_2 = \\) ",
+								postfix: "- меньший корень",
 								type: "input",
 								options: [],
 								answer: "16",
@@ -1245,6 +1297,7 @@ export const quizData: QuizTopic[] = [
 								type: "input",
 								options: [],
 								answer: "13/36",
+								postfix: "\\(\\frac{}{r}\\)",
 							},
 						],
 					},
@@ -1344,7 +1397,8 @@ export const quizData: QuizTopic[] = [
 								answer: "\\(\\frac{v}{u} + v\\)",
 							},
 							{
-								question: "Данное равенство ( ) тождеством.",
+								prefix: "Данное равенство",
+								postfix: " тождеством.",
 								partId: "2",
 								type: "radio",
 								options: [
@@ -1363,16 +1417,18 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "1",
-								question:
-									"Градусная мера меньшего угла равна ( )°.",
+								prefix: "Градусная мера меньшего угла равна",
+								postfix: "°.",
+								placeholder: "12,3",
 								type: "input",
 								options: [],
 								answer: ["24,3"],
 							},
 							{
 								partId: "2",
-								question:
-									"Градусная мера большего угла равна ( )°.",
+								prefix: "Градусная мера большего угла равна",
+								postfix: "°.",
+								placeholder: "12,3",
 								type: "input",
 								options: [],
 								answer: ["65,7"],
@@ -1386,7 +1442,8 @@ export const quizData: QuizTopic[] = [
 							"Длина прямоугольного участка — \\(200\\) м, а ширина составляет \\(80\\%\\) от длины. Вспахано \\(20\\%\\) участка. Сколько гектаров не вспахано?",
 						parts: [
 							{
-								question: "Ответ: ( ) га.",
+								prefix: "Ответ:",
+								postfix: " га.",
 								placeholder: "1,23",
 								partId: "1",
 								type: "input",
@@ -1728,11 +1785,11 @@ export const quizData: QuizTopic[] = [
 							"Себестоимость изделия была равна \\(740\\) р. В результате применения инноваций себестоимость изделия снизилась на \\(3\\%\\).",
 						parts: [
 							{
-								question:
-									"Какой стала себестоимость изделия? (Ответ в рублях)",
+								question: "Какой стала себестоимость изделия?",
 								partId: "t1.1",
 								type: "input",
-								placeholder: "123",
+								placeholder: "123,45",
+								postfix: "\\(р\\)",
 								options: [],
 								answer: "717,8",
 							},
@@ -1746,7 +1803,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "t2.1",
-								question: "Градусная мера меньшего угла (°):",
+								prefix: "Градусная мера меньшего угла:",
+								postfix: "°",
 								placeholder: "12,3",
 								type: "input",
 								options: [],
@@ -1754,9 +1812,10 @@ export const quizData: QuizTopic[] = [
 							},
 							{
 								partId: "t2.2",
-								question: "Градусная мера большего угла (°):",
-								type: "input",
+								prefix: "Градусная мера большего угла:",
+								postfix: "°",
 								placeholder: "12,3",
+								type: "input",
 								options: [],
 								answer: "75,6",
 							},
@@ -1769,6 +1828,8 @@ export const quizData: QuizTopic[] = [
 							"Длина прямоугольного участка — \\(200\\) м, а ширина составляет \\(75\\%\\) от длины. Вспахано \\(25\\%\\) этого участка. Определи, сколько гектаров не вспахано.",
 						parts: [
 							{
+								prefix: "Ответ: не вспахано",
+								postfix: "га участка",
 								placeholder: "1,23",
 								partId: "t3.1",
 								type: "input",
@@ -1786,6 +1847,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t4.1",
 								type: "input",
+								postfix: "кг",
 								placeholder: "123,45",
 								options: [],
 								answer: "3889,62",
@@ -1803,7 +1865,7 @@ export const quizData: QuizTopic[] = [
 								question:
 									"Сколько рублей стоила одна акция в августе?",
 								type: "input",
-
+								postfix: "руб.",
 								options: [],
 								answer: "720000",
 							},
@@ -1812,6 +1874,7 @@ export const quizData: QuizTopic[] = [
 								question:
 									"На сколько процентов увеличилась биржевая стоимость акции за два месяца?",
 								type: "input",
+								postfix: "\\(\\%\\)",
 								options: [],
 								answer: "21",
 							},
@@ -1820,6 +1883,7 @@ export const quizData: QuizTopic[] = [
 								question:
 									"На сколько процентов стоимость акций в августе меньше, чем в октябре? (округли до целых)",
 								type: "input",
+								postfix: "\\(\\%\\)",
 								options: [],
 								answer: "17",
 							},
@@ -1833,6 +1897,7 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "t6.1",
+								postfix: "р.",
 								type: "input",
 								options: [],
 								answer: "7126",
@@ -1847,6 +1912,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "t7.1",
+								prefix: "через ",
+								postfix: "лет.",
 								type: "input",
 								options: [],
 								answer: "3",
@@ -1862,6 +1929,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t8.1",
 								type: "input",
+								postfix: "\\(\\%\\)",
 								options: [],
 								answer: "1,5",
 							},
@@ -1877,6 +1945,7 @@ export const quizData: QuizTopic[] = [
 								partId: "t9.1",
 								question:
 									"Сколько деталей выпустил цех в ноябре?",
+								postfix: "деталей",
 								type: "input",
 								options: [],
 								answer: "640000",
@@ -1885,6 +1954,7 @@ export const quizData: QuizTopic[] = [
 								partId: "t9.2",
 								question:
 									"Сколько деталей выпустил цех в декабре?",
+								postfix: "деталей",
 								type: "input",
 								options: [],
 								answer: "512000",
@@ -1894,6 +1964,7 @@ export const quizData: QuizTopic[] = [
 								question:
 									"На сколько процентов снизилась производительность за два месяца?",
 								type: "input",
+								postfix: "\\(\\%\\)",
 								options: [],
 								answer: "36",
 							},
@@ -1908,6 +1979,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t10.1",
 								type: "input",
+								postfix: "лет",
 								options: [],
 								answer: "2",
 							},
@@ -1922,7 +1994,8 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t11.1",
 								question:
-									"Стоимость кроссовок после снижения цены (руб.):",
+									"Стоимость кроссовок после снижения цены:",
+								postfix: "рублей",
 								type: "input",
 								options: [],
 								answer: "4500",
@@ -1930,15 +2003,16 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t11.2",
 								question:
-									"Стоимость кроссовок после повышения цены (руб.):",
+									"Стоимость кроссовок после повышения цены:",
+								postfix: "рублей",
 								type: "input",
 								options: [],
 								answer: "5850",
 							},
 							{
 								partId: "t11.3",
-								question:
-									"Итоговая стоимость кроссовок (руб.):",
+								question: "Итоговая стоимость кроссовок:",
+								postfix: "рублей",
 								type: "input",
 								options: [],
 								answer: "5850",
@@ -1982,7 +2056,8 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t14.1",
 								question:
-									"Стоимость набора после снижения цены (руб.):",
+									"Стоимость набора после снижения цены:",
+								postfix: "рублей",
 								type: "input",
 								options: [],
 								answer: "3900",
@@ -1990,14 +2065,16 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t14.2",
 								question:
-									"Стоимость набора после повышения цены (руб.):",
+									"Стоимость набора после повышения цены:",
+								postfix: "рублей",
 								type: "input",
 								options: [],
 								answer: "5070",
 							},
 							{
 								partId: "t14.3",
-								question: "Итоговая стоимость набора (руб.):",
+								question: "Итоговая стоимость набора:",
+								postfix: "рублей",
 								type: "input",
 								options: [],
 								answer: "5070",
@@ -2013,6 +2090,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "t15.1",
 								type: "input",
+								postfix: "\\(\\%\\)",
 								options: [],
 								answer: "9",
 							},
@@ -2059,6 +2137,7 @@ export const quizData: QuizTopic[] = [
 							"В свежих ягодах винограда содержится \\(87\\%\\) воды, а в сухофруктах — \\(24\\%\\). Сколько килограммов свежего сырья потребуется для приготовления \\(5\\) кг сухофруктов? (Округли до сотых, ответ без единиц измерения.)",
 						parts: [
 							{
+								postfix: "кг",
 								partId: "bm_rc2.1",
 								type: "input",
 								options: [],
@@ -2116,6 +2195,7 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "bm_rc6.1",
+								postfix: "кг",
 								type: "input",
 								options: [],
 								answer: "7,84",
@@ -2130,7 +2210,8 @@ export const quizData: QuizTopic[] = [
 						parts: [
 							{
 								partId: "bm_rc7.1",
-								question: "Стоимость в августе (руб.):",
+								question: "Стоимость в августе:",
+								postfix: "руб.",
 								type: "input",
 								options: [],
 								answer: "10350",
@@ -2138,6 +2219,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "bm_rc7.2",
 								question: "Стоимость в июле (руб.):",
+								postfix: "руб.",
 								type: "input",
 								options: [],
 								answer: "9000",
@@ -2145,6 +2227,7 @@ export const quizData: QuizTopic[] = [
 							{
 								partId: "bm_rc7.3",
 								question: "Итоговая стоимость (руб.):",
+								postfix: "руб.",
 								type: "input",
 								options: [],
 								answer: "9000",
@@ -2198,7 +2281,7 @@ export const quizData: QuizTopic[] = [
 						id: "bm_rc9",
 						title: "Числовое выражение",
 						question:
-							"Найди значение выражения: \\(\\frac{\\sqrt{\\sqrt{12} - 2} \\cdot \\sqrt{\\sqrt{12} + 2}}{\\sqrt{128}}\\). (Пример ответа \\(6/5\\))",
+							"Найди значение выражения: \\(\\frac{\\sqrt{\\sqrt{12} - 2} \\cdot \\sqrt{\\sqrt{12} + 2}}{\\sqrt{128}}\\). ",
 						parts: [
 							{
 								partId: "bm_rc9.1",
@@ -2479,23 +2562,36 @@ export const quizData: QuizTopic[] = [
 							},
 							{
 								partId: "bm_rc24.2",
-								question:
-									"Найди высоту треугольника: \\(\\sqrt{()}\\)",
+								prefix: "Найди высоту треугольника: \\(\\sqrt{}\\)",
 								type: "input",
 								options: [],
 								answer: "1159",
 							},
 							{
+								is_horizontal: true,
 								partId: "bm_rc24.3",
-								question: "Найди площадь треугольника:",
-								type: "radio",
+								prefix: "Найди площадь треугольника:",
+								type: "input",
 								options: [
 									{ id: "1", text: "\\(21\\sqrt{1159}\\)" },
 									{ id: "2", text: "\\(\\sqrt{1159}\\)" },
 									{ id: "3", text: "\\(21\\sqrt{1160}\\)" },
 									{ id: "4", text: "\\(20\\sqrt{1159}\\)" },
 								],
-								answer: "21√1159",
+								answer: "21",
+							},
+							{
+								prefix: "\\(\\sqrt{}\\)",
+								is_horizontal: true,
+								partId: "bm_rc24.4",
+								type: "input",
+								options: [
+									{ id: "1", text: "\\(21\\sqrt{1159}\\)" },
+									{ id: "2", text: "\\(\\sqrt{1159}\\)" },
+									{ id: "3", text: "\\(21\\sqrt{1160}\\)" },
+									{ id: "4", text: "\\(20\\sqrt{1159}\\)" },
+								],
+								answer: "1159",
 							},
 						],
 					},
