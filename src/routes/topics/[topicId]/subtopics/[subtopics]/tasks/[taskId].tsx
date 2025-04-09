@@ -117,19 +117,19 @@ function TaskPageContent() {
 							</Text>
 						</Show>
 
-						<Text>
-							<FormulaRenderer
-								formula={currentTask().question}
-								display={true}
-							/>
-						</Text>
-
-						<TaskImages images={currentTask().images} />
-
 						<Show
 							when={isHydrated()}
 							fallback={<div>Загрузка...</div>}
 						>
+							<Text>
+								<FormulaRenderer
+									formula={currentTask().question}
+									display={true}
+								/>
+							</Text>
+
+							<TaskImages images={currentTask().images} />
+
 							<TaskParts
 								parts={currentTask().parts}
 								userAnswers={userAnswers()}
