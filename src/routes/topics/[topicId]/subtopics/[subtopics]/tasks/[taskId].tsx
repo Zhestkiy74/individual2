@@ -63,12 +63,13 @@ function TaskPageContent() {
 				task()?.parts.map((part) =>
 					typeof part.answer === "string"
 						? part.answer
-						: part.answer.join(", "),
+						: part.answer.join(";"),
 				) || [],
 			);
 		} else {
 			setUserAnswers(Array(task()!.parts.length).fill(""));
 		}
+		console.log(userAnswers);
 	});
 
 	const handleAnswerChange = (index: number, value: string) => {
@@ -77,6 +78,7 @@ function TaskPageContent() {
 			updated[index] = value;
 			return updated;
 		});
+		console.log(userAnswers);
 	};
 
 	const handleCheckAnswers = () => {

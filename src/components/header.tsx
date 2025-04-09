@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/styled/button";
 import { Stack } from "styled-system/jsx";
 import { IconButton } from "~/components/ui/icon-button";
 import { FiX } from "solid-icons/fi";
-import { clearSolvedTasks } from "~/utils/localStorage";
+import { clearAllSolvedTasks } from "~/utils/localStorage";
 import { createSignal } from "solid-js";
 
 export default function Header() {
@@ -46,8 +46,9 @@ export default function Header() {
 								/>
 								<Button
 									onClick={() => {
-										clearSolvedTasks();
+										clearAllSolvedTasks();
 										setOpen(false);
+										window.location.reload();
 									}}
 								>
 									Да

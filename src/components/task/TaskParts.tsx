@@ -6,6 +6,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import FormulaRenderer from "~/components/FormulaRenderer";
 import { FractionInput } from "~/components/task/FractionInput";
 import type { TaskPart } from "~/task/model";
+import { Dialog } from "@ark-ui/solid";
 
 /* ========= Основной компонент TaskParts ========= */
 
@@ -68,7 +69,7 @@ export function TaskParts(props: TaskPartsProps) {
 						<FractionInput
 							value={currentAnswer}
 							onBlur={(updated) => props.onChange(index, updated)}
-							disabled={props.disabled}
+							disabled={!!props.disabled}
 						/>
 					) : (
 						<Input
@@ -213,7 +214,7 @@ export function TaskParts(props: TaskPartsProps) {
 																i
 															] || ""
 														)
-															.split(", ")
+															.split(";")
 															.includes(opt.text)}
 														onCheckedChange={(
 															details,

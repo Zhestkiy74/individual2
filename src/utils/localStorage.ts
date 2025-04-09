@@ -79,3 +79,8 @@ export function removeWrongSolvedTask(taskId: string): void {
 export function clearWrongSolvedTasks(): void {
 	localStorage.removeItem("wrongSolvedTasks");
 }
+
+export function clearAllSolvedTasks(): void {
+	clearSolvedTasks();
+	clearWrongSolvedTasks();
+}
