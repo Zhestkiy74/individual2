@@ -5,9 +5,9 @@ import { quizData } from "~/task/data";
 import { Link } from "~/components/ui/link";
 import { Heading } from "~/components/ui/heading";
 import { Icon } from "~/components/ui/icon";
-import { isTaskSolved } from "~/utils/localStorage";
+import { isTaskSolved, isTaskWrongSolved } from "~/utils/localStorage";
 import { createSignal, onMount, createEffect } from "solid-js";
-import { FiCheck, FiCircle } from "solid-icons/fi";
+import { FiCheck, FiCircle, FiX } from "solid-icons/fi";
 
 export default function SubtopicPage() {
 	const navigate = useNavigate();
@@ -43,22 +43,35 @@ export default function SubtopicPage() {
 				<ul>
 					<For each={tasks}>
 						{(task, i) => (
-							<li>
+							<li
+								style={{
+									display: "flex",
+									"flex-wrap": "nowrap",
+									"align-items": "center",
+								}}
+							>
 								<Show
 									when={
-										isHydrated() && !isTaskSolved(task.id)
+										isHydrated() &&
+										!isTaskSolved(task.id) &&
+										!isTaskWrongSolved(task.id)
 									}
 								>
 									<Icon>
 										<FiCircle />
 									</Icon>{" "}
 								</Show>
-								<Show
-									when={isHydrated() && isTaskSolved(task.id)}
-								>
-									<Icon>
-										<FiCheck color="limegreen" />
-									</Icon>{" "}
+								<Show when={isHydrated()}>
+									<Show when={isTaskSolved(task.id)}>
+										<Icon>
+											<FiCheck color="limegreen" />
+										</Icon>{" "}
+									</Show>
+									<Show when={isTaskWrongSolved(task.id)}>
+										<Icon>
+											<FiX color="red" />
+										</Icon>{" "}
+									</Show>
 								</Show>
 
 								<Link

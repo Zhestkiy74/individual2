@@ -13,6 +13,7 @@ interface TaskPartsProps {
 	parts: TaskPart[];
 	userAnswers: string[];
 	onChange: (index: number, value: string) => void;
+	disabled?: boolean;
 }
 
 function isFraction(value: string) {
@@ -66,17 +67,17 @@ export function TaskParts(props: TaskPartsProps) {
 					isFraction(String(part.answer)) ? (
 						<FractionInput
 							value={currentAnswer}
-							onChange={(updated) =>
-								props.onChange(index, updated)
-							}
+							onBlur={(updated) => props.onChange(index, updated)}
+							disabled={props.disabled}
 						/>
 					) : (
 						<Input
+							disabled={props.disabled}
 							type="text"
 							placeholder={part.placeholder || "Ваш ответ"}
 							style={{ width: "8rem" }}
 							value={currentAnswer}
-							onInput={(e) =>
+							onBlur={(e) =>
 								props.onChange(index, e.currentTarget.value)
 							}
 						/>
@@ -153,6 +154,7 @@ export function TaskParts(props: TaskPartsProps) {
 											{(opt) => (
 												<RadioGroup.Item
 													value={opt.text}
+													disabled={props.disabled}
 												>
 													<RadioGroup.ItemControl />
 													<RadioGroup.ItemText>
@@ -202,13 +204,16 @@ export function TaskParts(props: TaskPartsProps) {
 												>
 													<Checkbox
 														name={`part-${i}`}
+														disabled={
+															props.disabled
+														}
 														value={opt.text}
 														checked={(
 															props.userAnswers[
 																i
 															] || ""
 														)
-															.split(";")
+															.split(", ")
 															.includes(opt.text)}
 														onCheckedChange={(
 															details,

@@ -26,7 +26,8 @@ function buildFraction(sign: string, numerator: string, denominator: string) {
 
 interface FractionInputProps {
 	value: string;
-	onChange: (value: string) => void;
+	onBlur: (value: string) => void;
+	disabled: boolean;
 }
 
 export function FractionInput(props: FractionInputProps) {
@@ -61,7 +62,7 @@ export function FractionInput(props: FractionInputProps) {
 		newDenom: string,
 	) => {
 		const updated = buildFraction(newSign, newNumerator, newDenom);
-		props.onChange(updated);
+		props.onBlur(updated);
 	};
 
 	return (
@@ -70,6 +71,7 @@ export function FractionInput(props: FractionInputProps) {
 		>
 			{/* Поле ввода знака */}
 			<Input
+				disabled={props.disabled}
 				type="text"
 				style={{ width: "3rem" }}
 				placeholder="+/-"
@@ -83,6 +85,7 @@ export function FractionInput(props: FractionInputProps) {
 			<div style={{ "font-weight": "bold" }}>
 				{/* Поле ввода числителя */}
 				<Input
+					disabled={props.disabled}
 					type="text"
 					// style={{ width: "8rem" }}
 					placeholder="числитель"
@@ -106,6 +109,7 @@ export function FractionInput(props: FractionInputProps) {
 					}}
 				></span>
 				<Input
+					disabled={props.disabled}
 					type="text"
 					// style={{ width: "5rem" }}
 					placeholder="знаменатель"

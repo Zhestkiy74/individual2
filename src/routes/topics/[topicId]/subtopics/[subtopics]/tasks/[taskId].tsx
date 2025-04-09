@@ -9,7 +9,12 @@ import { TaskImages } from "~/components/task/TaskImages";
 import { TaskNavigation } from "~/components/task/TaskNavigation";
 import { TaskToaster } from "~/components/task/TaskToaster";
 import { TaskProvider, useTaskContext } from "~/contexts/TaskContext";
-import { addSolvedTask, isTaskSolved } from "~/utils/localStorage";
+import {
+	addSolvedTask,
+	isTaskSolved,
+	addWrongSolvedTask,
+	isTaskWrongSolved,
+} from "~/utils/localStorage";
 import FormulaRenderer from "~/components/FormulaRenderer";
 import { checkAnswers } from "~/services/TaskService";
 
@@ -39,12 +44,6 @@ function TaskPageContent() {
 	onMount(() => setIsHydrated(true));
 
 	createEffect(() => {
-		if (task()) {
-			setUserAnswers(Array(task()!.parts.length).fill(""));
-		}
-	});
-
-	createEffect(() => {
 		if (task() === null) {
 			navigate("/404", { replace: true });
 		}
@@ -52,7 +51,23 @@ function TaskPageContent() {
 
 	createEffect(() => {
 		if (isHydrated() && task()) {
-			setSolved(isTaskSolved(task()!.id));
+			setSolved(
+				isTaskSolved(task()!.id) || isTaskWrongSolved(task()!.id),
+			);
+		}
+	});
+
+	createEffect(() => {
+		if (solved()) {
+			setUserAnswers(
+				task()?.parts.map((part) =>
+					typeof part.answer === "string"
+						? part.answer
+						: part.answer.join(", "),
+				) || [],
+			);
+		} else {
+			setUserAnswers(Array(task()!.parts.length).fill(""));
 		}
 	});
 
@@ -79,6 +94,8 @@ function TaskPageContent() {
 				type: "success",
 			});
 		} else {
+			addWrongSolvedTask(currentTask.id);
+			setSolved(true);
 			toaster.create({
 				title: "Неправильно",
 				description: "Попробуйте еще раз",
@@ -112,9 +129,16 @@ function TaskPageContent() {
 						</Heading>
 
 						<Show when={solved()}>
-							<Text style={{ color: "limegreen" }}>
-								Эта задача уже решена!
-							</Text>
+							<Show when={isTaskSolved(task()!.id)}>
+								<Text style={{ color: "limegreen" }}>
+									Эта задача уже решена!
+								</Text>
+							</Show>
+							<Show when={isTaskWrongSolved(task()!.id)}>
+								<Text style={{ color: "red" }}>
+									Эта задача уже решена!
+								</Text>
+							</Show>
 						</Show>
 
 						<Show
@@ -134,6 +158,7 @@ function TaskPageContent() {
 								parts={currentTask().parts}
 								userAnswers={userAnswers()}
 								onChange={handleAnswerChange}
+								disabled={solved()}
 							/>
 						</Show>
 					</>
