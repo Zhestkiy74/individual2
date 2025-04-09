@@ -7,6 +7,7 @@ export interface TaskPart {
 	partId?: string;
 	question?: string;
 	type: "radio" | "checkbox" | "input";
+	placeholder?: string;
 	options?: Option[];
 	answer: string | string[];
 }

@@ -35,7 +35,7 @@ export function TaskParts(props: TaskPartsProps) {
 						}}
 					>
 						<Text>
-							<b>Часть {i() + 1}:</b>
+							{/* <b>Часть {i() + 1}:</b> */}
 							<FormulaRenderer
 								formula={part.question || ""}
 								display={true}
@@ -55,7 +55,9 @@ export function TaskParts(props: TaskPartsProps) {
 								) : (
 									<Input
 										type="text"
-										placeholder="Ваш ответ"
+										placeholder={
+											part.placeholder || "Ваш ответ"
+										}
 										value={currentAnswer}
 										onInput={(e) =>
 											props.onChange(
