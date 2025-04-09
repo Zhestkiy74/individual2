@@ -42,48 +42,36 @@ export function TaskParts(props: TaskPartsProps) {
 							/>
 						</Text>
 
-						{/* Обработка типа "input" */}
 						<Show when={part.type === "input"}>
-							{() => {
-								// Если ответ является дробью – показываем поля для дроби
-								const shouldShowFractionInputs = isFraction(
-									String(part.answer),
-								);
-								return (
-									<Show
-										when={shouldShowFractionInputs}
-										fallback={
-											<Input
-												type="text"
-												placeholder="Ваш ответ"
-												value={currentAnswer}
-												onInput={(e) =>
-													props.onChange(
-														i(),
-														e.currentTarget.value,
-													)
-												}
-											/>
+							{
+								// Вычисляем, нужно ли показывать компоненты для дроби
+								isFraction(String(part.answer)) ? (
+									<FractionInput
+										value={currentAnswer}
+										onChange={(updated) =>
+											props.onChange(i(), updated)
 										}
-									>
-										{() => (
-											<FractionInput
-												value={currentAnswer}
-												onChange={(updated) =>
-													props.onChange(i(), updated)
-												}
-											/>
-										)}
-									</Show>
-								);
-							}}
+									/>
+								) : (
+									<Input
+										type="text"
+										placeholder="Ваш ответ"
+										value={currentAnswer}
+										onInput={(e) =>
+											props.onChange(
+												i(),
+												e.currentTarget.value,
+											)
+										}
+									/>
+								)
+							}
 						</Show>
-
 						{/* Обработка типа "radio" */}
 						<Show when={part.type === "radio"}>
 							<RadioGroup.Root
 								name={`part-${i()}`}
-								value={currentAnswer}
+								value={props.userAnswers[i()] || ""}
 								onValueChange={(details) =>
 									props.onChange(i(), details.value || "")
 								}
@@ -108,44 +96,60 @@ export function TaskParts(props: TaskPartsProps) {
 						{/* Обработка типа "checkbox" */}
 						<Show when={part.type === "checkbox"}>
 							<For each={part.options}>
-								{(opt) => {
-									const checkedValues = currentAnswer
-										.split(";")
-										.filter(Boolean);
-									return (
-										<label style={{ display: "block" }}>
-											<Checkbox
-												name={`part-${i()}`}
-												value={opt.text}
-												checked={checkedValues.includes(
-													opt.text,
-												)}
-												onCheckedChange={(details) => {
-													const newChecked =
-														details.checked
-															? [
-																	...checkedValues,
-																	opt.text,
-																]
-															: checkedValues.filter(
-																	(v) =>
-																		v !==
-																		opt.text,
-																);
+								{(opt) => (
+									<label style={{ display: "block" }}>
+										<Checkbox
+											name={`part-${i()}`}
+											value={opt.text}
+											checked={(
+												props.userAnswers[i()] || ""
+											)
+
+												.split(";")
+
+												.includes(opt.text)}
+											onCheckedChange={(details) => {
+												const current = (
+													props.userAnswers[i()] || ""
+												)
+
+													.split(";")
+
+													.filter(Boolean);
+
+												if (details.checked) {
 													props.onChange(
 														i(),
-														newChecked.join(";"),
+
+														[
+															...current,
+															opt.text,
+														].join(";"),
 													);
-												}}
-											>
-												<FormulaRenderer
-													formula={opt.text}
-													display={true}
-												/>
-											</Checkbox>
-										</label>
-									);
-								}}
+												} else {
+													props.onChange(
+														i(),
+
+														current
+
+															.filter(
+																(v) =>
+																	v !==
+																	opt.text,
+															)
+
+															.join(";"),
+													);
+												}
+											}}
+										>
+											<FormulaRenderer
+												formula={opt.text}
+												display={true}
+											/>
+										</Checkbox>
+									</label>
+								)}
 							</For>
 						</Show>
 					</div>
